@@ -1,14 +1,14 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS    # ✅ CORS import
+from flask_cors import CORS
 import json
 import os
 
 app = Flask(__name__)
-CORS(app)   # ✅ All origins allow
+CORS(app)  # ✅ Allow all origins
 
 DATA_FILE = "data.json"
 
-# agar file exist nahi karti to ek empty array bana do
+# Agar file exist nahi karti to create karo
 if not os.path.exists(DATA_FILE):
     with open(DATA_FILE, "w") as f:
         json.dump([], f)
@@ -34,7 +34,6 @@ def get_all_tests():
 def add_test():
     data = read_data()
     new_test = request.json
-    # id generate karo max id ke base pe
     new_test["id"] = max([d["id"] for d in data], default=0) + 1
     data.append(new_test)
     write_data(data)
