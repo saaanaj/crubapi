@@ -21,6 +21,10 @@ def write_data(data):
         json.dump(data, f, indent=4)
 
 
+
+@app.route("/", methods=["GET"])
+def index():
+    return "welcome to api motherfucker is working now"
 @app.route("/api/tests", methods=["GET"])
 def get_all_tests():
     data = read_data()
