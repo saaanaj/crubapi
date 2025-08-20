@@ -4,14 +4,14 @@ import json
 import os
 
 app = Flask(__name__)
-CORS(app)  # ✅ Allow all origins
+CORS(app)  # Allow all origins for frontend requests
 
 DATA_FILE = "data.json"
 
 # Agar file exist nahi karti to create karo
 if not os.path.exists(DATA_FILE):
     with open(DATA_FILE, "w") as f:
-        json.dump([], f)
+        json.dump([], f, indent=4)
 
 def read_data():
     with open(DATA_FILE, "r") as f:
@@ -23,7 +23,7 @@ def write_data(data):
 
 @app.route("/", methods=["GET"])
 def index():
-    return "API is working!"
+    return "Lab Tests API is working!"
 
 @app.route("/api/tests", methods=["GET"])
 def get_all_tests():
@@ -34,6 +34,7 @@ def get_all_tests():
 def add_test():
     data = read_data()
     new_test = request.json
+    # Generate ID based on max existing id
     new_test["id"] = max([d["id"] for d in data], default=0) + 1
     data.append(new_test)
     write_data(data)
@@ -44,7 +45,7 @@ def update_test(test_id):
     data = read_data()
     for test in data:
         if test["id"] == test_id:
-            test.update(request.json)
+            test.update(request.json)  # Update only the fields provided
             write_data(data)
             return jsonify({"message": "Test updated successfully", "data": test})
     return jsonify({"error": "Test not found"}), 404
