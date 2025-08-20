@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS    # ✅ CORS import
 import json
 import os
 
 app = Flask(__name__)
+CORS(app)   # ✅ All origins allow
+
 DATA_FILE = "data.json"
 
 # agar file exist nahi karti to ek empty array bana do
@@ -10,26 +13,22 @@ if not os.path.exists(DATA_FILE):
     with open(DATA_FILE, "w") as f:
         json.dump([], f)
 
-
 def read_data():
     with open(DATA_FILE, "r") as f:
         return json.load(f)
-
 
 def write_data(data):
     with open(DATA_FILE, "w") as f:
         json.dump(data, f, indent=4)
 
-
-
 @app.route("/", methods=["GET"])
 def index():
-    return "welcome to api motherfucker is working now"
+    return "API is working!"
+
 @app.route("/api/tests", methods=["GET"])
 def get_all_tests():
     data = read_data()
     return jsonify(data)
-
 
 @app.route("/api/tests", methods=["POST"])
 def add_test():
@@ -41,17 +40,15 @@ def add_test():
     write_data(data)
     return jsonify({"message": "Test added successfully", "data": new_test})
 
-
 @app.route("/api/tests/<int:test_id>", methods=["PUT"])
 def update_test(test_id):
     data = read_data()
     for test in data:
         if test["id"] == test_id:
-            test.update(request.json)   # jo bhejo wahi update hoga
+            test.update(request.json)
             write_data(data)
             return jsonify({"message": "Test updated successfully", "data": test})
     return jsonify({"error": "Test not found"}), 404
-
 
 @app.route("/api/tests/<int:test_id>", methods=["DELETE"])
 def delete_test(test_id):
@@ -62,7 +59,6 @@ def delete_test(test_id):
             write_data(data)
             return jsonify({"message": "Test deleted successfully"})
     return jsonify({"error": "Test not found"}), 404
-
 
 if __name__ == "__main__":
     app.run(debug=True)
