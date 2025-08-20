@@ -1,1 +1,32 @@
-
+[
+    {
+        "id": 2,
+        "image": "https://example.com/images/xray.jpg",
+        "name": "X-Ray",
+        "type": "Radiology",
+        "description": "Check bones",
+        "price": 800,
+        "discount": 5
+    },
+    {
+        "image": "https://example.com/images/mri.jpg",
+        "name": "loda scan",
+        "type": "Radiology",
+        "description": "High-resolution imaging",
+        "price": 4500,
+        "discount": 2000,
+        "id": 4
+    },
+    {
+        "name": "New Test Name loda mada madarchod",
+        "id": 5
+    },
+    {
+        "name": "New Test Name loda mada madarchod",
+        "id": 6
+    },
+    {
+        "name": "New Test Name hjjn hhb ju j h h ",
+        "id": 7
+    }
+]
